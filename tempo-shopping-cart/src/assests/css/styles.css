@@ -322,6 +322,10 @@ header h2.tempo a{
 	z-index: 100;
 }
 
+.single-product.hidden .overlay{
+	height: 0;
+}
+
 .single-product.visible .overlay{
 	height: 100%;
 }
@@ -341,7 +345,7 @@ header h2.tempo a{
 	background-color:  #ffffff;
 
 	z-index: 102;
-	opacity: 1;
+	opacity: 0;
 	transition: 0.4s;
 
 }

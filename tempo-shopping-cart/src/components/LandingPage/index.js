@@ -2,7 +2,8 @@ import React from "react";
 import { connect } from 'react-redux';
 import sonyXperiaZ3Small from '../../assests/images/sony-xperia-z3.jpg'
 import {fetchData} from '../../actions/landingPageAction'
-import { loadPartialConfig } from "@babel/core";
+import {fetchOverlayData} from '../../actions/overlayPageAction'
+import { visible } from "ansi-colors";
 
 class LandingPage extends React.Component {
 	constructor(props){
@@ -38,10 +39,16 @@ class LandingPage extends React.Component {
 		}
 		this.props.fetchData(filters);
 	}
+
+	clickHandlerAction (id) {
+		this.props.fetchOverlayData(id);
+	}
 	
     render() {
-		const {landingPageReducer} = this.props;
+		const {landingPageReducer, overlayPageReducer} = this.props;
 		const productData = landingPageReducer.isLoaded ? landingPageReducer.payLoad.products : '';
+		const overlayData = overlayPageReducer.isLoaded ? overlayPageReducer.payLoad.products : '';
+		const self = this;
 
         return (
            <div className="main-content">
@@ -134,7 +141,7 @@ class LandingPage extends React.Component {
 			{ productData.length ? 
 			<ul className="products-list">
 						{productData.map(function(value, i){
-                            return(<li key={i}>
+                            return(<li key={i} onClick={self.clickHandlerAction.bind(self, value.id)}>
                             <a href="#" className="product-photo"><img src={value.image.small} height="130" alt={value.name}/></a>
 							<h2><a href="#"> {value.name} </a></h2>
 							<ul className="product-description">
@@ -143,7 +150,7 @@ class LandingPage extends React.Component {
 								<li><span>OS: </span>{value.specs.os}</li>
 								<li><span>Camera: </span>{value.specs.camera} Mpx</li>
 							</ul>
-							<button onClick={() => this.props.clickButtonAction()}>Buy Now!</button>
+							<button>Buy Now!</button>
 							<p className="product-price">{value.price}$</p>
 							<div className="highlight"></div>
                             
@@ -158,19 +165,19 @@ class LandingPage extends React.Component {
 		</div>
 
 
-		{/* <div className="single-product page">
+		<div className={`single-product page ${overlayPageReducer.isLoaded ? 'visible' : 'hidden'}`} onClick={this.clickHandlerAction.bind(this, null)}>
 
 			<div className="overlay"></div>
 
 			<div className="preview-large">
-				<h3>Single product view</h3>
-				<img src=""/>
-				<p></p>
+				<h3>{overlayData.name}</h3>
+				<img src={overlayData.image} />
+				<p>{overlayData.description}</p>
 
 				<span className="close">×</span>
 			</div>
 
-		</div> */}
+		</div>
 
 	</div>
         );
@@ -178,10 +185,11 @@ class LandingPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-	landingPageReducer: state.landingPageReducer
+	landingPageReducer: state.landingPageReducer,
+	overlayPageReducer: state.overlayPageReducer
 });
 
 export default connect(
 	mapStateToProps, 
-	{fetchData}
+	{fetchData, fetchOverlayData}
 )(LandingPage);

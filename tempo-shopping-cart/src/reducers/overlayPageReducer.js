@@ -1,4 +1,4 @@
-import { FETCH_LOAD_DATA, FETCH_LOAD_DATA_SUCCESS, FETCH_LOAD_DATA_FAILURE } from '../actions/landingPageAction';
+import { FETCH_OVERLAY_DATA, FETCH_OVERLAY_DATA_FAILURE, FETCH_OVERLAY_DATA_SUCCESS } from '../actions/overlayPageAction';
 
 const initialState = {
     isLoaded: false,
@@ -8,18 +8,18 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case FETCH_LOAD_DATA : 
+        case FETCH_OVERLAY_DATA : 
             return {
                 ...state,
                 isLoaded: false
             }
-        case FETCH_LOAD_DATA_SUCCESS: 
+        case FETCH_OVERLAY_DATA_SUCCESS: 
             return {
                 ...state,
                 isLoaded: true,
                 payLoad: action.payload
             }
-        case FETCH_LOAD_DATA_FAILURE:
+        case FETCH_OVERLAY_DATA_FAILURE:
             return {
                 ...state,
                 isLoaded: false,
