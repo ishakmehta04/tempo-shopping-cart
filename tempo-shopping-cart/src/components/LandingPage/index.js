@@ -13,13 +13,36 @@ class LandingPage extends React.Component {
 	}
 
 	componentDidMount () {
-		this.props.fetchData();
+		this.props.fetchData({});
+	}
+
+	handleChange (e) {
+		let filters = {};
+		for(let key in this.refs){
+			if(this.refs[key].checked) {
+				if(!(filters[this.refs[key].name] && filters[this.refs[key].name].length)){
+					filters[this.refs[key].name] = [];
+				}
+				filters[this.refs[key].name].push(this.refs[key].value);
+			} else {
+				if(filters[this.refs[key].name] && filters[this.refs[key].name].length && (filters[this.refs[key].name].indexOf(this.refs[key].value) != -1)){
+					const index = filters[this.refs[key].name].indexOf(this.refs[key].value);
+					filters[this.refs[key].name].splice(index, 1);
+
+					if(!filters[this.refs[key].name].length){
+						delete filters[this.refs[key].name];
+					}
+	
+				}
+			}
+		}
+		this.props.fetchData(filters);
 	}
 	
     render() {
 		const {landingPageReducer} = this.props;
 		const productData = landingPageReducer.isLoaded ? landingPageReducer.payLoad.products : '';
-		
+
         return (
            <div className="main-content">
 
@@ -35,7 +58,8 @@ class LandingPage extends React.Component {
 							type="checkbox" 
 							name="manufacturer" 
 							value="apple" 
-							onChange={()=> {}}
+							ref="applePhone"
+							onChange={this.handleChange.bind(this)}
 							/>Apple
 						</label>
 						<label>
@@ -43,57 +67,62 @@ class LandingPage extends React.Component {
 							type="checkbox" 
 							name="manufacturer" 
 							value="samsung"
-							onChange={()=> {}}/>Samsung
+							ref="samsungPhone"
+							onChange={this.handleChange.bind(this)}/>Samsung
 							</label>
 						<label>
 							<input 
 							type="checkbox" 
 							name="manufacturer" 
 							value="htc"
-							onChange={()=> {}}/>HTC
+							ref="htcPhone"
+							onChange={this.handleChange.bind(this)}/>HTC
 						</label>
 						<label>
 							<input 
 							type="checkbox" 
 							name="manufacturer" 
 							value="nokia"
-							onChange={()=> {}}/>Nokia
+							ref="nokiaPhone"
+							onChange={this.handleChange.bind(this)}/>Nokia
 						</label>
 						<label>
 							<input 
 							type="checkbox" 
 							name="manufacturer" 
 							value="zte"
-							onChange={()=> {}}/>ZTE
+							ref="ztePhone"
+							onChange={this.handleChange.bind(this)}/>ZTE
 						</label>
 						<label>
 							<input 
 							type="checkbox" 
 							name="manufacturer" 
 							value="sony"
-							onChange={()=> {}} />Sony
+							ref="sonyPhone"
+							onChange={this.handleChange.bind(this)}/>Sony
 						</label>
 					</div>
 
 					<div className="filter-criteria">
 						<span>Screen Size</span>
-						<label><input type="checkbox" value="16" name="storage" />16 GB</label>
-						<label><input type="checkbox" value="32" name="storage" />32 GB</label>
+						<label><input type="checkbox" value="16" name="storage" ref="16gbPhone" onChange={this.handleChange.bind(this)}/>16 GB</label>
+						<label><input type="checkbox" value="32" name="storage" ref="32gbPhone" onChange={this.handleChange.bind(this)}/>32 GB</label>
 					</div>
 
 					<div className="filter-criteria">
 						<span>OS</span>
-						<label><input type="checkbox" value="android" name="os" />Android</label>
-						<label><input type="checkbox" value="ios" name="os" />iOS</label>
-						<label><input type="checkbox" value="windows" name="os" />Windows</label>
+						<label><input type="checkbox" value="android" name="os" ref="androidPhone" onChange={this.handleChange.bind(this)}/>Android</label>
+						<label><input type="checkbox" value="ios" name="os" ref="iosPhone" onChange={this.handleChange.bind(this)}/>iOS</label>
+						<label><input type="checkbox" value="windows" name="os" ref="windowsPhone" onChange={this.handleChange.bind(this)}/>Windows</label>
 					</div>
 
 					<div className="filter-criteria">
 						<span>Camera</span>
-						<label><input type="checkbox" value="5" name="camera" />5 Mpx</label>
-						<label><input type="checkbox" value="8" name="camera" />8 Mpx</label>
-						<label><input type="checkbox" value="12" name="camera" />12 Mpx</label>
-						<label><input type="checkbox" value="15" name="camera" />15 Mpx</label>
+						<label><input type="checkbox" value="5" name="camera" ref="5mpPhone" onChange={this.handleChange.bind(this)}/>5 Mpx</label>
+						<label><input type="checkbox" value="8" name="camera" ref="8mpPhone" onChange={this.handleChange.bind(this)}/>8 Mpx</label>
+						<label><input type="checkbox" value="12" name="camera" ref="12mpPhone" onChange={this.handleChange.bind(this)}/>12 Mpx</label>
+						<label><input type="checkbox" value="15" name="camera" ref="15mpPhone" onChange={this.handleChange.bind(this)}/>15 Mpx</label>
 					</div>
 
 					<button>Clear filters</button>
@@ -102,8 +131,9 @@ class LandingPage extends React.Component {
 
 			</div>
 
+			{ productData.length ? 
 			<ul className="products-list">
-						{productData ? productData.map(function(value, i){
+						{productData.map(function(value, i){
                             return(<li key={i}>
                             <a href="#" className="product-photo"><img src={value.image.small} height="130" alt={value.name}/></a>
 							<h2><a href="#"> {value.name} </a></h2>
@@ -118,10 +148,13 @@ class LandingPage extends React.Component {
 							<div className="highlight"></div>
                             
                             </li>)
-                        }) : ""
+                        })
                     }
-			</ul>
-
+			</ul> :
+			<div className="error page">
+				Sorry, something went wrong :(
+			</div>
+			}
 		</div>
 
 
@@ -138,10 +171,6 @@ class LandingPage extends React.Component {
 			</div>
 
 		</div> */}
-
-		<div className="error page">
-			<h3>Sorry, something went wrong :(</h3>
-		</div>
 
 	</div>
         );

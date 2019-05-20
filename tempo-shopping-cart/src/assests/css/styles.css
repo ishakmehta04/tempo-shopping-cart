@@ -384,9 +384,7 @@ header h2.tempo a{
 ----------------------------*/
 
 .error{
-	opacity: 0;
 	transition: 0.6s;
-	pointer-events: none;
 	position: absolute;
 	left: 0;
 	top: 100px;
