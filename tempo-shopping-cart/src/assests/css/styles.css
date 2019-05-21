@@ -369,7 +369,7 @@ header h2.tempo a{
 
 .preview-large p{
 	line-height: 23px;
-	padding: 50px 45px;
+	padding: 25px 45px;
 }
 
 .close{
@@ -401,5 +401,39 @@ header h2.tempo a{
 
 .error h3{
 	font-size: 40px;
+}
+
+.cart-button {
+	background: transparent;
+    border: 0;
+	color: #fff;
+	float: right;
+	padding-left: 20px;
+	position: relative;
+	cursor: pointer;
+}
+
+.cart-button span {
+	font-size: 10px;
+    height: 15px;
+    width: 15px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: red;
+    border-radius: 50%;
+    font-weight: bold;
+    line-height: 15px;
+}
+
+.addToCartBtn {
+	font-size: 13px;
+    text-transform: uppercase;
+    display: inline-block;
+    padding: 12px 18px;
+    border-radius: 3px;
+	background-color: #5895DB;
+	color: #fff;
+    font-weight: bold;
 }
 

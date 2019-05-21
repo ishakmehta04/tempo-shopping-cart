@@ -1,15 +1,16 @@
 import React from "react";
 import { connect } from 'react-redux';
-import sonyXperiaZ3Small from '../../assests/images/sony-xperia-z3.jpg'
 import {fetchData} from '../../actions/landingPageAction'
 import {fetchOverlayData} from '../../actions/overlayPageAction'
-import { visible } from "ansi-colors";
+import {fetchAddToCartData} from '../../actions/addToCartAction';
+import Header from '../Header';
 
 class LandingPage extends React.Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			
+			qty : 0,
+			total : 0
 		}
 	}
 
@@ -43,6 +44,10 @@ class LandingPage extends React.Component {
 	clickHandlerAction (id) {
 		this.props.fetchOverlayData(id);
 	}
+
+	add(id) {
+		this.props.fetchAddToCartData(id);
+	  }
 	
     render() {
 		const {landingPageReducer, overlayPageReducer} = this.props;
@@ -51,11 +56,14 @@ class LandingPage extends React.Component {
 		const self = this;
 
         return (
+			<React.Fragment>
+				<Header/>
+		
            <div className="main-content">
 
-		<div className="all-products page">
+			<div className="all-products page">
 
-			<div className="filters">
+				<div className="filters">
 				<form>
 
 					<div className="filter-criteria">
@@ -173,23 +181,25 @@ class LandingPage extends React.Component {
 				<h3>{overlayData.name}</h3>
 				<img src={overlayData.image} />
 				<p>{overlayData.description}</p>
-
+				<button className="btn btn-outline-primary addToCartBtn" onClick={this.add.bind(this, overlayData.id)}>Add to cart</button>
 				<span className="close">×</span>
 			</div>
 
 		</div>
 
 	</div>
+	</React.Fragment>
         );
     }
 }
 
 const mapStateToProps = (state) => ({
 	landingPageReducer: state.landingPageReducer,
-	overlayPageReducer: state.overlayPageReducer
+	overlayPageReducer: state.overlayPageReducer,
+	addToCartReducer: state.addToCartReducer
 });
 
 export default connect(
 	mapStateToProps, 
-	{fetchData, fetchOverlayData}
+	{fetchData, fetchOverlayData, fetchAddToCartData}
 )(LandingPage);

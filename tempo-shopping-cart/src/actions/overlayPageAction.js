@@ -23,6 +23,7 @@ export const fetchOverlayData = (index) => {
                         result.name = item.name;
                         result.image = item.image.large;
                         result.description = item.description;
+                        result.id = item.id;
                     }
                 });
                 dispatch(fetchOverlaySuccess(result));
