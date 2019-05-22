@@ -148,7 +148,7 @@ class LandingPage extends React.Component {
 
 			{ productData.length ? 
 			<ul className="products-list">
-						{productData.map(function(value, i){
+						{productData.map((value, i)=>{
                             return(<li key={i} onClick={self.clickHandlerAction.bind(self, value.id)}>
                             <a href="#" className="product-photo"><img src={value.image.small} height="130" alt={value.name}/></a>
 							<h2><a href="#"> {value.name} </a></h2>

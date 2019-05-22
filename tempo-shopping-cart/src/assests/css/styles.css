@@ -437,3 +437,10 @@ header h2.tempo a{
     font-weight: bold;
 }
 
+.main-content-cart .product-description li{
+	display: block;
+}
+
+.main-content-cart .products-list {
+	margin: 100px 0 0 0;
+}
